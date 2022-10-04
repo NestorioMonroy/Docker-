@@ -1,288 +1,224 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Define Article %%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass{article}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[letterpaper,11pt]{article}
+\newlength{\outerbordwidth}
+\pagestyle{empty}
+\raggedbottom
+\raggedright
+\usepackage[svgnames]{xcolor}
+\usepackage{framed}
+\usepackage{tocloft}
+\usepackage{etoolbox}
+\usepackage{hyperref}
+\robustify\cftdotfill
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Using Packages %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----------------------------------------------------------
+%Edit these values as you see fit
+\setlength{\outerbordwidth}{3pt}  % Width of border outside of title bars
+\definecolor{shadecolor}{gray}{0.75}  % Outer background color of title bars (0 = black, 1 = white)
+\definecolor{shadecolorB}{gray}{0.93}  % Inner background color of title bars
 
-\usepackage[utf8]{inputenc}
-\usepackage{enumitem}
-\usepackage{amsmath}
-\usepackage{mathtools}
-\usepackage{datetime}
-\usepackage[linguistics]{forest}
-\usepackage{tikz}
-\usepackage{epigraph}
-\usepackage{graphicx}
-\usetikzlibrary{trees}
-\usepackage{mdframed}
-\usepackage{multicol}
-\usetikzlibrary{shapes.geometric, arrows}
-\tikzstyle{startend} = [ellipse, text centered, draw=black, fill=red!30]
-\tikzstyle{process} = [rectangle, rounded corners,minimum width=2cm, minimum height=1cm,text width=1.5cm,text centered, draw=black, fill=blue!20]
-\tikzstyle{process1} = [rectangle, rounded corners,minimum width=2cm, minimum height=1cm,text width=1.4cm,text centered, draw=black, fill=blue!20]
-\tikzstyle{decision} = [diamond, minimum width=1.5cm, minimum height=1cm,text width=1.5cm, text centered, draw=black, fill=blue!20]
-\tikzstyle{line} = [thick,-]
-\tikzstyle{male} = [rectangle,minimum width=1cm, minimum height=0.5cm,text centered, draw=black, fill=blue!20]
-\tikzstyle{female} = [rectangle,minimum width=1cm, minimum height=0.5cm,text centered, draw=black, fill=red!20]
-\usepackage[linesnumbered,boxed]{algorithm2e}
-\usepackage[a4paper, total={5in, 7.5in}]{geometry}
-\paperheight 10.5in
-\usepackage{geometry}
-\usepackage{bera}
-\usepackage[T1]{fontenc}
-\usepackage{listings}
-\usepackage{xcolor}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%-----------------------------------------------------------
+%Margin setup
+\setlength{\evensidemargin}{-0.25in}
+\setlength{\headheight}{-0.5in}
+\setlength{\headsep}{0in}
+\setlength{\oddsidemargin}{-0.25in}
+\setlength{\paperheight}{11in}
+\setlength{\paperwidth}{8.5in}
+\setlength{\tabcolsep}{0in}
+\setlength{\textheight}{9.75in}
+\setlength{\textwidth}{7in}
+\setlength{\topmargin}{-0.3in}
+\setlength{\topskip}{0in}
+\setlength{\voffset}{0.1in}
 
-% Other Settings
+%-----------------------------------------------------------
+%Custom commands
+\newcommand{\resitem}[1]{\item #1 \vspace{-2pt}}
+\newcommand{\resheading}[1]{\vspace{-7pt}
+  \parbox{\textwidth}{\setlength{\FrameSep}{\outerbordwidth}
+    \begin{shaded}
 
-\definecolor{commentgreen}{rgb}{0.4, 1.0, 0.0}
-\lstset {
-    language=C++,
-    basicstyle=\fontsize{12}{8},
-    commentstyle=\color{commentgreen},
-    emph={long,int,void,if,return,while,for, true},
-    emphstyle={\color{blue}}
+\setlength{\fboxsep}{0pt}\framebox[\textwidth][l]{\setlength{\fboxsep}{4pt}\fcolorbox{shadecolorB}{shadecolorB}{\textbf{\sffamily{\mbox{~}\makebox[6.762in][l]{\large #1} \vphantom{p\^{E}}}}}}
+    \end{shaded}
+  }\vspace{-15pt}
 }
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\ressubheading}[4]{
+\begin{tabular*}{6.5in}{l@{\cftdotfill{\cftsecdotsep}\extracolsep{\fill}}r}
+		\textbf{#1} & #2 \\
+		\textit{#3} & \textit{#4} \\
+\end{tabular*}\vspace{-6pt}}
 
-\newdateformat{newDateFormat}{%
-\huge{\THEDAY}{ \monthname,} \THEYEAR}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title & Author %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{
-    \huge{\bf \mbox{Docker} }
-}
-\newDateFormat
-\author{\huge Nestor Monroy}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\usepackage[utf8]{inputenc}
-\usepackage{enumitem}
-\usepackage{amsmath}
-\usepackage{mathtools}
-\usepackage{datetime}
-\usepackage[linguistics]{forest}
-\usepackage{tikz}
-\usepackage{epigraph}
-\usepackage{graphicx}
-\usetikzlibrary{trees}
-\usepackage{mdframed}
-\usepackage{multicol}
-\usetikzlibrary{shapes.geometric, arrows}
-\tikzstyle{startend} = [ellipse, text centered, draw=black, fill=red!30]
-\tikzstyle{process} = [rectangle, rounded corners,minimum width=2cm, minimum height=1cm,text width=1.5cm,text centered, draw=black, fill=blue!20]
-\tikzstyle{process1} = [rectangle, rounded corners,minimum width=2cm, minimum height=1cm,text width=1.4cm,text centered, draw=black, fill=blue!20]
-\tikzstyle{decision} = [diamond, minimum width=1.5cm, minimum height=1cm,text width=1.5cm, text centered, draw=black, fill=blue!20]
-\tikzstyle{line} = [thick,-]
-\tikzstyle{male} = [rectangle,minimum width=1cm, minimum height=0.5cm,text centered, draw=black, fill=blue!20]
-\tikzstyle{female} = [rectangle,minimum width=1cm, minimum height=0.5cm,text centered, draw=black, fill=red!20]
-\usepackage[linesnumbered,boxed]{algorithm2e}
-\usepackage[a4paper, total={5in, 7.5in}]{geometry}
-\paperheight 10.5in
-\usepackage{geometry}
-\usepackage{bera}
-\usepackage[T1]{fontenc}
-\usepackage{listings}
-\usepackage{xcolor}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Other Settings
-
-\definecolor{commentgreen}{rgb}{0.4, 1.0, 0.0}
-\lstset {
-    language=C++,
-    basicstyle=\fontsize{12}{8},
-    commentstyle=\color{commentgreen},
-    emph={long,int,void,if,return,while,for, true},
-    emphstyle={\color{blue}}
-}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\newdateformat{newDateFormat}{%
-\huge{\THEDAY}{ \monthname,} \THEYEAR}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Title & Author %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{
-    \huge{\bf \mbox{Docker} }
-}
-\newDateFormat
-\author{\huge Nestor Monroy}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+%-----------------------------------------------------------
 \begin{document}
-\addtolength{\topmargin}{2in}
-\maketitle
-\thispagestyle{empty}
-\clearpage
-\pagenumbering{arabic}
-\newpage
-\restoregeometry
-\tableofcontents
 
-\newpage
-\mbox{Docker te permite construir, distribuir y ejecutar cualquier aplicación en cualquier lado}\
+\begin{tabular*}{7in}{l@{\extracolsep{\fill}}r}
+    \addtolength{\topmargin}{2in}
+    \maketitle
+    \pagenumbering{arabic}
+    \newpage
 
-\section{Problemáticas del desarrollo de software}\label{probuildsoftware}
-Una razón por la que Docker es tan popular es que cumple la promesa de “desarrollar una vez, ejecutar en cualquier lugar”. Docker ofrece una forma sencilla de empaquetar una aplicación y sus dependencias de tiempo de ejecución en un solo contenedor; también proporciona una abstracción en tiempo de ejecución que permite que el contenedor se ejecute en diferentes versiones del kernel de Linux.
-
-Usando Docker, un desarrollador puede crear una aplicación en contenedor en su estación de trabajo, y luego implementar fácilmente el contenedor en cualquier servidor habilitado para Docker. No es necesario volver a probar o volver a sintonizar el contenedor para el entorno del servidor, ya sea en la nube o en las instalaciones.
-\subsection{Construir}
-Escribir código en la máquina del desarrollador. (Compile, que no compile, arreglar el bug, compartir código, etc. ).
-
-\begin{itemize}
-    \item Entorno de desarrollo (paquetes)
-    \item Dependencias (Frameworks, bibliotecas)
-    \item Equivalencia de entornos de desarrollo (compartir el código)
-    \item Equivalencia con entornos productivos (pasar a producción)
-    \item Servicios externos (integración con otros servicios ejem: base de datos)
-\end{itemize}
-
-\subsection{Distribuir}
-Llevar la aplicación donde se va a desplegar (Transformarse en un artefacto)
-
-\begin{itemize}
-    \item Output de build heterogéneo (múltiples compilaciones)
-    \item Acceso a servidores productivos (No tenemos acceso al servidor)
-    \item Ejecución nativa vs virtualizada
-    \item Entornos Serverless
-\end{itemize}
-
-\subsection{Virtualización}
-
-Permite atacar en simultáneo los tres problemas del desarrollo de software profesional.\par
-
-{\bf Virtualización.}\par
-\begin{itemize}
-    \item PESO: En el orden de los GBs. Repiten archivos en común. Inicio lento
-    \item COSTO DE ADMINISTRACION: Necesita mantenimiento igual que cualquier otra computadora.
-    \item MULTIPLES DE FORMATO: VDI, VMDK, VHD, raw, etc
-\end{itemize}
-
-{\bf Containerización}\par
-\begin{itemize}
-    \item Flexibles
-    \item Livianos
-    \item Portables
-    \item Bajo acoplamiento
-    \item Escalables
-    \item Seguros
-\end{itemize}
-
-{\bf\ Virtualizacion vs Containerización}
-\begin{itemize}
-    \item Virtualización: A diferencia de un contenedor, las máquinas virtuales ejecutan un sistema operativo completo, incluido su propio kernel.
-    \item Containerización: Un contenedor es un silo aislado y ligero para ejecutar una aplicación en el sistema operativo host. Los contenedores se basan en el kernel del sistema operativo host (que puede considerarse la fontanería del sistema operativo), y solo puede contener aplicaciones y algunas API ligeras del sistema operativo y servicios que se ejecutan en modo de usuario.
-\end{itemize}
-
-{\bf\ ¿Cuál es el principal problema que intenta resolver la virtualización?}
-
-\par Atacar en simultaneo los tres grandes problemas de la ingeniería del software.
-
-Los contenedores son la estandarización para construir y desplegar software.
-
-\subsection{Distribuir}
-Llevar la aplicación donde se va a desplegar (Transformarse en un artefacto)
-
-\begin{itemize}
-    \item Output de build heterogéneo (múltiples compilaciones)
-    \item Acceso a servidores productivos (No tenemos acceso al servidor)
-    \item Ejecución nativa vs virtualizada
-    \item Entornos Serverless
-\end{itemize}
-
-\subsection{Ejecutar}
-Implementar la solución en el ambiente de producción (Subir a producción)
-
-\begin{itemize}
-    \item Dependencia de aplicación (paquetes, runtime)
-    \item Compatibilidad con el entorno productivo (sistema operativo poco amigable con la solución)
-    \item Disponibilidad de servicios externos (Acceso a los servicios externos)
-    \item Recursos de hardware (Capacidad de ejecución - Menos memoria, procesador más debil)
-\end{itemize}
-
-\subsection{Instalar y usar Docker en Ubuntu}
-
-\begin{itemize}
-    \item sudo apt update
-    \item sudo apt install apt-transport-https ca-certificates curl software-properties-common
-    \item curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    \item sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"1cm
-    \item sudo apt update
-    \item apt-cache policy docker-ce
-    \item sudo apt install docker-ce
-    \item sudo systemctl status docker
-
-\end{itemize}
-
-\subsection{Ejecutar el comando Docker sin sudo (opcional)}
-
-\begin{lstlisting}
-    sudo usermod -aG docker ${USER}
-    su - ${USER}
-    id -nG
-    sudo usermod -aG docker username
-
-\end{lstlisting}
-
-\section{Comandos Docker}\label{comansDocker}
-
-\begin{itemize}
-    \item Arrancar un contenedor asignándole un nombre -> docker run <image\_container> -> docker run hello-world
-    \item Arrancar un contenedor asignándole un nombre -> docker run --name <name\_container> <image\_container> -> docker run --name contenedor\_test\ ubuntu 
-    \item Arrancar un contenedor con una terminal interactiva. Pasándole una shell para acceder al contenedor -> docker run -it <image\_container> <shell> -> 0docker run -it ubuntu bash
-    \item Arrancar un contenedor. Mapeando un puerto del host a un puerto del contenedor. -> docker run -p <host\_port>:<container\_port> <image\_container> -> docker run -p 8080:80 nginx 
-    \item Igual que el ejemplo anterior pero dejándolo en segundo plano. -> docker run -p 8080:80 -d nginx
-    \item Arrancar un contenedor. Que tras terminar su periodo de vida. Será eliminado automáticamente. -> docker run --rm <image\_container>, docker run -p 8080:80 -d --rm nginx
-    \item Arrancar un contenedor con un volume -> docker run -v <volume\_name>:<mount\_point>
-    :<options> <image\_container>
-    \begin{lstlisting}
-        docker run -v test:/apps:rw nginx
-        * Volume -> test
-        * Punto de montaje en el contenedor -> /apps
-        * Opciones -> rw (Lectura y escritura)
-    \end{lstlisting}
-    \item Arrancar un contenedor con un bind mount. 
-    \begin{lstlisting}
-    docker run -v <shared_folder>:<mount_point>:<options> <image_container>
-    ejemplo
-        * Ruta del host a compartir -> /home/application
-        * Punto de montaje en el contenedor -> /apps
-        * Opciones -> ro (Solo lectura)
-
-        docker run -v /home/application:/apps:ro ubuntu
-    \end{lstlisting}
-    \item  Arrancar un contenedor con tmpfs. 
-    \begin{lstlisting}
-    docker run \
-    --mount type=tmpfs,destination=<mount_point>,tmpfs-mode=<permisos>,tmpfs-size=<bytes_size> \
-    <image_container>
     
-    Ejemplo
-    * Punto de montaje en el contenedor -> /temporal
-    * Permisos -> Todos los permisos solo para el propietario.
-    * Tamaño del FS -> 21474836480 bytes = 20G
-    docker run \
-    --mount type=tmpfs,destination=/temporal,tmpfs-mode=700,tmpfs-size=21474836480 \
-    nginx
+    \newpage
+    \mbox{Docker te permite construir, distribuir y ejecutar cualquier aplicación en cualquier lado}\
+    
+    \section{Problemáticas del desarrollo de software}\label{probuildsoftware}
+    Una razón por la que Docker es tan popular es que cumple la promesa de “desarrollar una vez, ejecutar en cualquier lugar”. Docker ofrece una forma sencilla de empaquetar una aplicación y sus dependencias de tiempo de ejecución en un solo contenedor; también proporciona una abstracción en tiempo de ejecución que permite que el contenedor se ejecute en diferentes versiones del kernel de Linux.
+    
+    Usando Docker, un desarrollador puede crear una aplicación en contenedor en su estación de trabajo, y luego implementar fácilmente el contenedor en cualquier servidor habilitado para Docker. No es necesario volver a probar o volver a sintonizar el contenedor para el entorno del servidor, ya sea en la nube o en las instalaciones.
+    \subsection{Construir}
+    Escribir código en la máquina del desarrollador. (Compile, que no compile, arreglar el bug, compartir código, etc. ).
+    
+    \begin{itemize}
+        \item Entorno de desarrollo (paquetes)
+        \item Dependencias (Frameworks, bibliotecas)
+        \item Equivalencia de entornos de desarrollo (compartir el código)
+        \item Equivalencia con entornos productivos (pasar a producción)
+        \item Servicios externos (integración con otros servicios ejem: base de datos)
+    \end{itemize}
+    
+    \subsection{Distribuir}
+    Llevar la aplicación donde se va a desplegar (Transformarse en un artefacto)
+    
+    \begin{itemize}
+        \item Output de build heterogéneo (múltiples compilaciones)
+        \item Acceso a servidores productivos (No tenemos acceso al servidor)
+        \item Ejecución nativa vs virtualizada
+        \item Entornos Serverless
+    \end{itemize}
+    
+    \subsection{Virtualización}
+    
+    Permite atacar en simultáneo los tres problemas del desarrollo de software profesional.\par
+    
+    {\bf Virtualización.}\par
+    \begin{itemize}
+        \item PESO: En el orden de los GBs. Repiten archivos en común. Inicio lento
+        \item COSTO DE ADMINISTRACION: Necesita mantenimiento igual que cualquier otra computadora.
+        \item MULTIPLES DE FORMATO: VDI, VMDK, VHD, raw, etc
+    \end{itemize}
+    
+    {\bf Containerización}\par
+    \begin{itemize}
+        \item Flexibles
+        \item Livianos
+        \item Portables
+        \item Bajo acoplamiento
+        \item Escalables
+        \item Seguros
+    \end{itemize}
+    
+    {\bf\ Virtualizacion vs Containerización}
+    \begin{itemize}
+        \item Virtualización: A diferencia de un contenedor, las máquinas virtuales ejecutan un sistema operativo completo, incluido su propio kernel.
+        \item Containerización: Un contenedor es un silo aislado y ligero para ejecutar una aplicación en el sistema operativo host. Los contenedores se basan en el kernel del sistema operativo host (que puede considerarse la fontanería del sistema operativo), y solo puede contener aplicaciones y algunas API ligeras del sistema operativo y servicios que se ejecutan en modo de usuario.
+    \end{itemize}
+    
+    {\bf\ ¿Cuál es el principal problema que intenta resolver la virtualización?}
+    
+    \par Atacar en simultaneo los tres grandes problemas de la ingeniería del software.
+    
+    Los contenedores son la estandarización para construir y desplegar software.
+    
+    \subsection{Distribuir}
+    Llevar la aplicación donde se va a desplegar (Transformarse en un artefacto)
+    
+    \begin{itemize}
+        \item Output de build heterogéneo (múltiples compilaciones)
+        \item Acceso a servidores productivos (No tenemos acceso al servidor)
+        \item Ejecución nativa vs virtualizada
+        \item Entornos Serverless
+    \end{itemize}
+    
+    \subsection{Ejecutar}
+    Implementar la solución en el ambiente de producción (Subir a producción)
+    
+    \begin{itemize}
+        \item Dependencia de aplicación (paquetes, runtime)
+        \item Compatibilidad con el entorno productivo (sistema operativo poco amigable con la solución)
+        \item Disponibilidad de servicios externos (Acceso a los servicios externos)
+        \item Recursos de hardware (Capacidad de ejecución - Menos memoria, procesador más debil)
+    \end{itemize}
+    
+    \subsection{Instalar y usar Docker en Ubuntu}
+    
+    \begin{itemize}
+        \item sudo apt update
+        \item sudo apt install apt-transport-https ca-certificates curl software-properties-common
+        \item curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+        \item sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"1cm
+        \item sudo apt update
+        \item apt-cache policy docker-ce
+        \item sudo apt install docker-ce
+        \item sudo systemctl status docker
+    
+    \end{itemize}
+    
+    \subsection{Ejecutar el comando Docker sin sudo (opcional)}
+    
+    \begin{lstlisting}
+        sudo usermod -aG docker ${USER}
+        su - ${USER}
+        id -nG
+        sudo usermod -aG docker username
+    
     \end{lstlisting}
-    \item Lista de los contenedores activos. -> docker ps
-    \item Lista de todos los contenedores activos e inactivos del sistema. -> docker ps -a
-    \item Lista los ID de todos los contenedores. -> docker ps -aq
-    \item Inspeccionar la data de un contenedor, por su ID -> docker inspect <id\_container>
-    \item Inspeccionar la data de un contenedor, por su nombre -> docker inspect <name\_container>
-    \item Aplicando filtros. Por ejemplo buscando las variables de entorno: -> docker inspect -f '{{ json .Config.Env }}' <name\_container>
-    \item Ver los logs del contenedor. -> docker logs <name\_container>
-    \item Eliminar un contenedor por ID -> docker rm <name\_container>
-    \item Eliminar un contenedor aunque este arriba. Forzándolo -> docker rm -f <id\_container>
-    \item Eliminar todos los contenedores que no esten arriba a la vez. -> docker rm \$(docker ps -aq)
-
-
-
-\end{itemize}
-
-
+    
+    \section{Comandos Docker}\label{comansDocker}
+    
+    \begin{itemize}
+        \item Arrancar un contenedor asignándole un nombre -> docker run <image\_container> -> docker run hello-world
+        \item Arrancar un contenedor asignándole un nombre -> docker run --name <name\_container> <image\_container> -> docker run --name contenedor\_test\ ubuntu 
+        \item Arrancar un contenedor con una terminal interactiva. Pasándole una shell para acceder al contenedor -> docker run -it <image\_container> <shell> -> 0docker run -it ubuntu bash
+        \item Arrancar un contenedor. Mapeando un puerto del host a un puerto del contenedor. -> docker run -p <host\_port>:<container\_port> <image\_container> -> docker run -p 8080:80 nginx 
+        \item Igual que el ejemplo anterior pero dejándolo en segundo plano. -> docker run -p 8080:80 -d nginx
+        \item Arrancar un contenedor. Que tras terminar su periodo de vida. Será eliminado automáticamente. -> docker run --rm <image\_container>, docker run -p 8080:80 -d --rm nginx
+        \item Arrancar un contenedor con un volume -> docker run -v <volume\_name>:<mount\_point>
+        :<options> <image\_container>
+        \begin{lstlisting}
+            docker run -v test:/apps:rw nginx
+            * Volume -> test
+            * Punto de montaje en el contenedor -> /apps
+            * Opciones -> rw (Lectura y escritura)
+        \end{lstlisting}
+        \item Arrancar un contenedor con un bind mount. 
+        \begin{lstlisting}
+        docker run -v <shared_folder>:<mount_point>:<options> <image_container>
+        ejemplo
+            * Ruta del host a compartir -> /home/application
+            * Punto de montaje en el contenedor -> /apps
+            * Opciones -> ro (Solo lectura)
+    
+            docker run -v /home/application:/apps:ro ubuntu
+        \end{lstlisting}
+        \item  Arrancar un contenedor con tmpfs. 
+        \begin{lstlisting}
+        docker run \
+        --mount type=tmpfs,destination=<mount_point>,tmpfs-mode=<permisos>,tmpfs-size=<bytes_size> \
+        <image_container>
+        
+        Ejemplo
+        * Punto de montaje en el contenedor -> /temporal
+        * Permisos -> Todos los permisos solo para el propietario.
+        * Tamaño del FS -> 21474836480 bytes = 20G
+        docker run \
+        --mount type=tmpfs,destination=/temporal,tmpfs-mode=700,tmpfs-size=21474836480 \
+        nginx
+        \end{lstlisting}
+        \item Lista de los contenedores activos. -> docker ps
+        \item Lista de todos los contenedores activos e inactivos del sistema. -> docker ps -a
+        \item Lista los ID de todos los contenedores. -> docker ps -aq
+        \item Inspeccionar la data de un contenedor, por su ID -> docker inspect <id\_container>
+        \item Inspeccionar la data de un contenedor, por su nombre -> docker inspect <name\_container>
+        \item Aplicando filtros. Por ejemplo buscando las variables de entorno: -> docker inspect -f '{{ json .Config.Env }}' <name\_container>
+        \item Ver los logs del contenedor. -> docker logs <name\_container>
+        \item Eliminar un contenedor por ID -> docker rm <name\_container>
+        \item Eliminar un contenedor aunque este arriba. Forzándolo -> docker rm -f <id\_container>
+        \item Eliminar todos los contenedores que no esten arriba a la vez. -> docker rm \$(docker ps -aq)
+    
+    
+    
+    \end{itemize}
+    
 
 \end{document}
