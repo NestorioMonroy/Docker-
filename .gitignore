@@ -352,4 +352,24 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/linux,macos,latex,windows
+*.aux
+*.acn
+*.bbl
+*.bcf
+*.blg
+*.dvi
+*.glo
+*.glsdefs
+*.ilg
+*.ind
+*.ist
+*.lof
+*.log
+*.lot
+*.ps
+*.out
+*.syg
+*.xml
+*.gz
+*.toc
+*.vscode
